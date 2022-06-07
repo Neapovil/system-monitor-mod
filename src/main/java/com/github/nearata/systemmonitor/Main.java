@@ -59,7 +59,7 @@ public final class Main implements ClientModInitializer
 
             if (playerlistentry != null)
             {
-                strings.add(client.getNetworkHandler().getPlayerListEntry(client.player.getUuid()).getLatency() + "ms");
+                strings.add(playerlistentry.getLatency() + "ms");
             }
 
             if (this.cpuNewData.length == 0)
