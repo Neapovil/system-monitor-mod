@@ -9,6 +9,8 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.network.PlayerListEntry;
 import oshi.SystemInfo;
 import oshi.hardware.HardwareAbstractionLayer;
 import oshi.util.FormatUtil;
@@ -53,6 +55,13 @@ public final class Main implements ClientModInitializer
 
             strings.add(((MinecraftClientMixin) client).getCurrentFps() + " FPS");
 
+            final PlayerListEntry playerlistentry = client.getNetworkHandler().getPlayerListEntry(client.player.getUuid());
+
+            if (playerlistentry != null)
+            {
+                strings.add(client.getNetworkHandler().getPlayerListEntry(client.player.getUuid()).getLatency() + "ms");
+            }
+
             if (this.cpuNewData.length == 0)
             {
                 this.cpuLoad = 0.0;
@@ -79,7 +88,11 @@ public final class Main implements ClientModInitializer
 
             strings.add("RAM: " + usedram.split(" ")[0] + "/" + totalram.split(" ")[0] + "GB");
 
-            client.textRenderer.drawWithShadow(matrixStack, String.join("; ", strings), 2, 2, 0xFFFFFF);
+            final String built = String.join("; ", strings);
+
+            DrawableHelper.fill(matrixStack, 1, 0, 2 + client.textRenderer.getWidth(built) + 1, 2 + client.textRenderer.fontHeight, 0x55000000);
+
+            client.textRenderer.drawWithShadow(matrixStack, built, 2, 2, 0xFFFFFF);
         });
     }
 }
