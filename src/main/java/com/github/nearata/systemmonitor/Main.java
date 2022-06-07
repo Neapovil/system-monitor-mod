@@ -11,6 +11,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import oshi.SystemInfo;
 import oshi.hardware.HardwareAbstractionLayer;
+import oshi.util.FormatUtil;
 
 public final class Main implements ClientModInitializer
 {
@@ -22,6 +23,8 @@ public final class Main implements ClientModInitializer
     private double oldCpuLoad = 0.0;
     private double newCpuLoad = 0.0;
     private double cpuLoad = 0.0;
+    private final long ramTotal = this.hardware.getMemory().getTotal();
+    private long ramAvailable = 0;
 
     @Override
     public void onInitializeClient()
@@ -37,6 +40,8 @@ public final class Main implements ClientModInitializer
             if (this.ticks >= 20)
             {
                 this.cpuNewData = this.hardware.getProcessor().getSystemCpuLoadTicks();
+                this.ramAvailable = this.hardware.getMemory().getAvailable();
+
                 this.ticks = 0;
             }
         });
@@ -68,6 +73,11 @@ public final class Main implements ClientModInitializer
             }
 
             strings.add(String.format("CPU load: %.1f%%", this.cpuLoad));
+
+            final String usedram = FormatUtil.formatBytes(this.ramTotal - this.ramAvailable);
+            final String totalram = FormatUtil.formatBytes(this.ramTotal);
+
+            strings.add("RAM: " + usedram.split(" ")[0] + "/" + totalram.split(" ")[0] + "GB");
 
             client.textRenderer.drawWithShadow(matrixStack, String.join("; ", strings), 2, 2, 0xFFFFFF);
         });
