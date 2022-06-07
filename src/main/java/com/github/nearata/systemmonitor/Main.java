@@ -14,11 +14,11 @@ import oshi.hardware.HardwareAbstractionLayer;
 
 public final class Main implements ClientModInitializer
 {
-    private final SystemInfo si = new SystemInfo();
-    private final HardwareAbstractionLayer hal = si.getHardware();
-    private long[] oldData = {};
-    private long[] newData = {};
+    private final SystemInfo systemInfo = new SystemInfo();
+    private final HardwareAbstractionLayer hardware = this.systemInfo.getHardware();
     private int ticks = 0;
+    private long[] cpuOldData = {};
+    private long[] cpuNewData = {};
     private double oldCpuLoad = 0.0;
     private double newCpuLoad = 0.0;
     private double cpuLoad = 0.0;
@@ -32,12 +32,12 @@ public final class Main implements ClientModInitializer
                 return;
             }
 
-            ticks++;
+            this.ticks++;
 
-            if (ticks >= 20)
+            if (this.ticks >= 20)
             {
-                this.newData = hal.getProcessor().getSystemCpuLoadTicks();
-                ticks = 0;
+                this.cpuNewData = this.hardware.getProcessor().getSystemCpuLoadTicks();
+                this.ticks = 0;
             }
         });
 
@@ -48,17 +48,17 @@ public final class Main implements ClientModInitializer
 
             strings.add(((MinecraftClientMixin) client).getCurrentFps() + " FPS");
 
-            if (this.newData.length == 0)
+            if (this.cpuNewData.length == 0)
             {
                 this.cpuLoad = 0.0;
             }
-            else if (this.newData.equals(this.oldData))
+            else if (this.cpuNewData.equals(this.cpuOldData))
             {
                 this.cpuLoad = this.oldCpuLoad;
             }
             else
             {
-                this.newCpuLoad = hal.getProcessor().getSystemCpuLoadBetweenTicks(this.newData) * 100;
+                this.newCpuLoad = this.hardware.getProcessor().getSystemCpuLoadBetweenTicks(this.cpuNewData) * 100;
 
                 if (this.newCpuLoad != 0.0)
                 {
