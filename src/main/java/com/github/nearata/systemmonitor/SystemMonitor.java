@@ -15,7 +15,7 @@ import oshi.SystemInfo;
 import oshi.hardware.HardwareAbstractionLayer;
 import oshi.util.FormatUtil;
 
-public final class Main implements ClientModInitializer
+public final class SystemMonitor implements ClientModInitializer
 {
     private final SystemInfo systemInfo = new SystemInfo();
     private final HardwareAbstractionLayer hardware = this.systemInfo.getHardware();

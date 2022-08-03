@@ -6,13 +6,13 @@
   "description": "",
   "authors": ["Nearata"],
   "contact": {
-    "sources": "https://github.com/Nearata/mc-system-monitor"
+    "sources": "https://github.com/Neapovil/system-monitor-mod"
   },
   "license": "Unlicense",
   "environment": "client",
   "entrypoints": {
     "client": [
-      "com.github.nearata.systemmonitor.Main"
+      "com.github.nearata.systemmonitor.SystemMonitor"
     ]
   },
   "mixins": [
