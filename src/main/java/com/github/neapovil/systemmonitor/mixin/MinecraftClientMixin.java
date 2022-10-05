@@ -9,5 +9,8 @@ import net.minecraft.client.MinecraftClient;
 public interface MinecraftClientMixin
 {
     @Accessor("currentFps")
-    int getCurrentFps();
+    public static int currentFps()
+    {
+        return 0;
+    }
 }

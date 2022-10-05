@@ -53,7 +53,7 @@ public final class SystemMonitor implements ClientModInitializer
 
             final List<String> strings = new ArrayList<>();
 
-            strings.add(((MinecraftClientMixin) client).getCurrentFps() + " FPS");
+            strings.add(MinecraftClientMixin.currentFps() + " FPS");
 
             final PlayerListEntry playerlistentry = client.getNetworkHandler().getPlayerListEntry(client.player.getUuid());
 
