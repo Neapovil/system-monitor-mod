@@ -1,9 +1,9 @@
-package com.github.nearata.systemmonitor;
+package com.github.neapovil.systemmonitor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.nearata.systemmonitor.mixin.MinecraftClientMixin;
+import com.github.neapovil.systemmonitor.mixin.MinecraftClientMixin;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;

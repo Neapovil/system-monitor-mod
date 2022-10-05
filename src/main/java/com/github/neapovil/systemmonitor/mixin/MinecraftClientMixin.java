@@ -1,4 +1,4 @@
-package com.github.nearata.systemmonitor.mixin;
+package com.github.neapovil.systemmonitor.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
