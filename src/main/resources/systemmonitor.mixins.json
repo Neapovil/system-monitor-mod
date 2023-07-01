@@ -3,7 +3,9 @@
   "package": "com.github.neapovil.systemmonitor.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [],
-  "client": ["MinecraftClientMixin"],
+  "client": [
+    "MinecraftClientMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

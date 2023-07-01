@@ -13,7 +13,6 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.network.PlayerListEntry;
 import oshi.SystemInfo;
 import oshi.hardware.HardwareAbstractionLayer;
-import oshi.util.FormatUtil;
 
 public final class SystemMonitor implements ClientModInitializer
 {
@@ -25,8 +24,6 @@ public final class SystemMonitor implements ClientModInitializer
     private double oldCpuLoad = 0.0;
     private double newCpuLoad = 0.0;
     private double cpuLoad = 0.0;
-    private final long ramTotal = this.hardware.getMemory().getTotal();
-    private long ramAvailable = 0;
 
     @Override
     public void onInitializeClient()
@@ -42,7 +39,6 @@ public final class SystemMonitor implements ClientModInitializer
             if (this.ticks >= 20)
             {
                 this.cpuNewData = this.hardware.getProcessor().getSystemCpuLoadTicks();
-                this.ramAvailable = this.hardware.getMemory().getAvailable();
 
                 this.ticks = 0;
             }
@@ -88,10 +84,11 @@ public final class SystemMonitor implements ClientModInitializer
 
             strings.add(String.format("CPU load: %.1f%%", this.cpuLoad));
 
-            final String usedram = FormatUtil.formatBytes(this.ramTotal - this.ramAvailable);
-            final String totalram = FormatUtil.formatBytes(this.ramTotal);
+            final long maxmemory = Runtime.getRuntime().maxMemory();
+            final long totalmemory = Runtime.getRuntime().totalMemory();
+            final long freememory = Runtime.getRuntime().freeMemory();
 
-            strings.add("RAM: " + usedram.split(" ")[0] + "/" + totalram.split(" ")[0] + "GB");
+            strings.add(String.format("RAM usage: %2d%%", (totalmemory - freememory) * 100L / maxmemory));
 
             final String built = String.join("; ", strings);
 
