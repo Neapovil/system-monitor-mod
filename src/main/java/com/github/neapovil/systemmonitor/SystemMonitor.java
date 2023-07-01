@@ -51,6 +51,11 @@ public final class SystemMonitor implements ClientModInitializer
         HudRenderCallback.EVENT.register((matrixStack, delta) -> {
             final MinecraftClient client = MinecraftClient.getInstance();
 
+            if (client.options.debugEnabled)
+            {
+                return;
+            }
+
             final List<String> strings = new ArrayList<>();
 
             strings.add(MinecraftClientMixin.currentFps() + " FPS");
